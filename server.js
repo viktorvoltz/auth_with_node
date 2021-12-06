@@ -6,14 +6,7 @@ app.use(express.json())
 const port = process.env.PORT || 8080;
 
 const users = [
-    {
-        name: 'henry',
-        password: 'post 1'
-    },
-    {
-        name: 'goodman',
-        password: 'post 2'   
-    }
+    
 ]
 
 app.get('/users', (req, res) => {
@@ -26,7 +19,7 @@ app.post('/users', async(req, res) => {
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
         console.log(`salt: ${salt}`);
         console.log(`password: ${hashedPassword}`);
-        const user = { name: req.body.username, password: hashedPassword, }
+        const user = { name: req.body.name, password: hashedPassword, }
         users.push(user);
         res.status(201).send("user created")
     }catch(error){
@@ -42,7 +35,7 @@ app.post('/users/login', async (req, res) => {
     }
     try{
         if (await bcrypt.compare(req.body.password, user.password)){
-            res.status(201).send("successfully logged in")
+            res.send("successfully logged in")
         }else{
             res.send("name or password incorrect");
         }
